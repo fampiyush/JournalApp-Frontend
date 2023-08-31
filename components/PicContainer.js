@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import {
   View,
   Text,
@@ -172,4 +172,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PicContainer;
+export default memo(PicContainer);

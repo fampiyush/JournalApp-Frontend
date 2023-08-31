@@ -26,7 +26,7 @@ function Collage() {
               />
             )}
             <ScrollView
-              style={styles.captionContainer}
+              style={[styles.captionContainer, {height: item.imgURI ? screenHeight * 0.42 : screenHeight * 0.75,}]}
               persistentScrollbar={true}
             >
               <Text style={styles.caption}>{item.caption}</Text>
@@ -65,13 +65,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   contentCont: {
-    // backgroundColor: '#fff',
-    // alignItems: "center",
+    backgroundColor: '#ebe5eb',
+    alignItems: 'center',
+    borderRadius: 10,
+    elevation: 10,
+    marginTop: 5,
   },
   captionContainer: {
     padding: 8,
     // marginTop: 16,
-    maxHeight: screenHeight * 0.4,
     // backgroundColor: '#eee1f0',
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
