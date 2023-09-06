@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -12,6 +12,8 @@ import {
 import { Dimensions } from "react-native";
 import InputField from "../helperComponents/InputField";
 import { authService } from "../services/allServices";
+import { authContext } from '../utils/auth-Context';
+import * as SecureStore from 'expo-secure-store'
 
 const windowHeight = Dimensions.get("window").height;
 const LoginScreen = () => {
@@ -34,6 +36,7 @@ const LoginScreen = () => {
     password: "",
     confirmPassword: "",
   });
+  const {userData, setUserData} = useContext(authContext);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -56,14 +59,19 @@ const LoginScreen = () => {
   }, []);
 
   const onLogin = async () => {
+    if(!profile.emailorusername || !profile.password){
+      setWarning({...warning, login: true, loginMessage: 'Please include all fields'})
+      return
+    }
     setWarning({...warning, login: false})
     await authService
       .loginUser({
         emailorusername: profile.emailorusername,
         password: profile.password,
       })
-      .then((res) => {
-        console.log(res.data);
+      .then(async(res) => {
+        setUserData(res.data);
+        await SecureStore.setItemAsync('user_token', res.data.token)
       })
       .catch((err) => {
         setWarning({
@@ -79,6 +87,10 @@ const LoginScreen = () => {
     if (warning.password || warning.confirmPassword || warning.email) {
       return;
     }
+    if(!profile.name || !profile.email || !profile.password || !profile.username || !profile.confirmPassword){
+      setWarning({...warning, submission: true, submissionMessage: 'Please include all fields'})
+      return
+    }
     setWarning({...warning, submission: false})
     await authService
       .registerUser({
@@ -87,8 +99,9 @@ const LoginScreen = () => {
         username: profile.username,
         password: profile.password,
       })
-      .then((res) => {
-        console.log(res.data);
+      .then(async(res) => {
+        setUserData(res.data)
+        await SecureStore.setItemAsync('user_token', res.data.token)
       })
       .catch((err) => {
         setWarning({
@@ -118,6 +131,9 @@ const LoginScreen = () => {
   };
 
   const emailValidate = () => {
+    if(!profile.email){
+      return
+    }
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(profile.email) === false) {
       setWarning({ ...warning, email: true });

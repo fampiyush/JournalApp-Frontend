@@ -1,10 +1,14 @@
-export default(api) => {
+export default (api) => {
+    
     const loginUrl = '/users/login'
     const signUpUrl = '/users/register'
+    const getUserUrl = '/users/me'
 
-    const getAuthAxiosConfig = () => {
+
+    const getAuthAxiosConfig = (token) => {
         return {
             headers: {
+                Authorization: "Bearer " + token,
                 "content-type": "application/x-www-form-urlencoded",
                 },
         }
@@ -26,5 +30,12 @@ export default(api) => {
         )
     }
 
-    return {loginUser, registerUser}
+    const getUser = (token) => {
+        return api.get(
+            getUserUrl,
+            getAuthAxiosConfig(token)
+        )
+    }
+
+    return {loginUser, registerUser, getUser}
 }

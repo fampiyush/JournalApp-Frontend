@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingLeft: 24,
     paddingRight: 24,
     marginTop: 8,
-    marginBottom: windowHeight*0.08,
+    marginBottom: windowHeight*0.12,
   },
 });
 

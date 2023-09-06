@@ -19,7 +19,13 @@ function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <NavBar style={styles.nav} getTab={getTab} />
-      {currentTab == 1 ? <Collection style={styles.collection} /> : <Shared style={styles.shared} />}
+      <View style={{display: currentTab == 1 ? 'flex' : 'none'}}>
+        <Collection style={styles.collection} />
+      </View>
+      <View style={{display: currentTab == 2 ? 'flex' : 'none'}}>
+        <Shared style={styles.shared} />
+      </View>
+      {/* {currentTab == 1 ? <Collection style={styles.collection} /> : <Shared style={styles.shared} />} */}
       <Footer style={styles.footer} setTab={setTab} getTab={getTab} />
     </SafeAreaView>
   );

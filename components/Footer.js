@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Dimensions } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome5";
 import { AntDesign } from "@expo/vector-icons";
@@ -11,12 +11,11 @@ function Footer({setTab, getTab}) {
   return (
     <View style={styles.container}>
       <View style={styles.inContainer}>
-        <View style={styles.tabCont}>
+        <Pressable style={styles.tabCont} onPress={() => setTab(1)}>
           <Icon
             name="images"
             size={28}
             color={getTab() == 1 ? "#C261CF" : "#1f1f1f"}
-            onPress={() => setTab(1)}
           />
           <View
             style={{
@@ -27,21 +26,22 @@ function Footer({setTab, getTab}) {
               bottom: 0,
             }}
           ></View>
-        </View>
+        </Pressable>
         {/* <View style={[styles.tabContPlus, {backgroundColor: '#E6DFE6', marginTop: -12}]}> */}
-        <AntDesign
-          name="pluscircle"
-          size={56}
-          color="#C261CF"
-          style={{ margin: -14 }}
-        />
+        <Pressable style={{width: '20%', alignItems: 'center'}}>
+          <AntDesign
+            name="pluscircle"
+            size={56}
+            color="#C261CF"
+            style={{ margin: -14 }}
+          />
+        </Pressable>
         {/* </View> */}
-        <View style={styles.tabCont}>
+        <Pressable style={styles.tabCont} onPress={() => setTab(2)}>
           <Icon
             name="users"
             size={28}
-            color={getTab() == 2 ? "#C261CF" : "#1f1f1f"}
-            onPress={() => setTab(2)}
+            color={getTab() == 2 ? "#C261CF" : "#1f1f1f"}        
           />
           <View
             style={{
@@ -52,7 +52,7 @@ function Footer({setTab, getTab}) {
               bottom: 0,
             }}
           ></View>
-        </View>
+        </Pressable>
       </View>
     </View>
   );
