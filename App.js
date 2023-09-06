@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Home from "./components/Home";
 import { useEffect, useState } from 'react';
 import { Dimensions } from "react-native";
+import LoginScreen from './components/LoginScreen';
 
 const windowHeight = Dimensions.get("window").height;
 export default function App() {
@@ -26,7 +27,8 @@ export default function App() {
           <Text style={{color: '#E6DFE6', fontSize: 16}}>Splash Screen</Text>
         </View>
         :
-      <Home />
+      
+        <LoginScreen />
       }
     </View>
   );
