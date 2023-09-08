@@ -3,23 +3,25 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Dimensions } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome5";
 import { AntDesign } from "@expo/vector-icons";
+import {useRoute} from '@react-navigation/native'
 
 const windowHeight = Dimensions.get("window").height;
-function Footer({setTab, getTab}) {
-//   const [currentTab, setCurrentTab] = useState(2);
+function Footer({navigation}) {
+  
+  const route = useRoute()
 
   return (
     <View style={styles.container}>
       <View style={styles.inContainer}>
-        <Pressable style={styles.tabCont} onPress={() => setTab(1)}>
+        <Pressable style={styles.tabCont} onPress={() => navigation.navigate('Home', {component: 'Collection'})}>
           <Icon
             name="images"
             size={28}
-            color={getTab() == 1 ? "#C261CF" : "#1f1f1f"}
+            color={route.params.component == 'Collection' ? "#C261CF" : "#1f1f1f"}
           />
           <View
             style={{
-              backgroundColor: getTab() == 1 ? "#C261CF" : "#E6DFE6",
+              backgroundColor: route.params.component == 'Collection' ? "#C261CF" : "#E6DFE6",
               height: 3,
               width: "100%",
               position: "absolute",
@@ -27,7 +29,6 @@ function Footer({setTab, getTab}) {
             }}
           ></View>
         </Pressable>
-        {/* <View style={[styles.tabContPlus, {backgroundColor: '#E6DFE6', marginTop: -12}]}> */}
         <Pressable style={{width: '20%', alignItems: 'center'}}>
           <AntDesign
             name="pluscircle"
@@ -36,16 +37,15 @@ function Footer({setTab, getTab}) {
             style={{ margin: -14 }}
           />
         </Pressable>
-        {/* </View> */}
-        <Pressable style={styles.tabCont} onPress={() => setTab(2)}>
+        <Pressable style={styles.tabCont} onPress={() => navigation.navigate('Home', {component: 'Shared'})}>
           <Icon
             name="users"
             size={28}
-            color={getTab() == 2 ? "#C261CF" : "#1f1f1f"}        
+            color={route.params.component == 'Shared' ? "#C261CF" : "#1f1f1f"}        
           />
           <View
             style={{
-              backgroundColor: getTab() == 2 ? "#C261CF" : "#E6DFE6",
+              backgroundColor: route.params.component == 'Shared' ? "#C261CF" : "#E6DFE6",
               height: 3,
               width: "100%",
               position: "absolute",
@@ -63,24 +63,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     backgroundColor: "#1f1f1f",
-    // shadowColor: '#C261CF',
-    // elevation: 2,
     width: "100%",
     height: windowHeight * 0.08,
-    // borderTopRightRadius: 15,
-    // borderTopLeftRadius: 15,
-    // borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
-    // borderColor: '#daa0e2',
-    // borderWidth: 1,
   },
   inContainer: {
     backgroundColor: "#E6DFE6",
     width: "90%",
     height: "60%",
     borderRadius: 15,
-    // alignItems: 'center',
     justifyContent: "space-evenly",
     flexDirection: "row",
   },

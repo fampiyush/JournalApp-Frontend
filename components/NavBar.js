@@ -2,15 +2,19 @@ import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import Icon from '@expo/vector-icons/FontAwesome5'
 import { Dimensions } from 'react-native'
+import {useRoute} from '@react-navigation/native'
 
 const windowHeight = Dimensions.get('window').height
-function NavBar({getTab}) {
+function NavBar({navigation}) {
+
+  const route = useRoute()
+
   return (
     <View style={styles.wrap}>
     <View style={styles.container}>
         <View style={styles.barsMenu}>
           <Icon name='bars' color='#E6DFE6' size={22} />
-          <Text style={styles.headText}>{getTab() == 1 ? 'Collection' : 'Shared'}</Text>
+          <Text style={styles.headText}>{route.params.component == 'Collection' ? 'Collection' : 'Shared'}</Text>
         </View>
         <Icon name='search' color='#E6DFE6' size={22} />
     </View>
@@ -35,7 +39,6 @@ const styles = StyleSheet.create({
     },
     barsMenu: {
       flexDirection: 'row',
-      // backgroundColor: '#fff',
       alignItems: 'center',
     },
     headText: {

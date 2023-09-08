@@ -87,17 +87,13 @@ const styles = StyleSheet.create({
   date: {
     marginBottom: 16,
     color: "#C261CF",
-    // marginBottom: 16,
   },
   picContainer: {
     marginBottom: 16,
-    // marginLeft: 8,
-    // marginRight: 8,
     backgroundColor: "#E6DFE6",
     height: windowHeight * 0.45 - 3,
     width: "98%",
     flexDirection: "column",
-    // alignItems: 'center',
     padding: 8,
     borderRadius: 5,
     borderColor: "#daa0e2",
@@ -124,7 +120,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 8,
-    // backgroundColor: '#000'
   },
   captions: {
     color: "#121212",
@@ -164,7 +159,6 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     alignItems: "center",
-    // justifyContent: 'center',
     height: "100%",
   },
   modalContent: {

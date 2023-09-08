@@ -16,7 +16,7 @@ import { authContext } from '../utils/auth-Context';
 import * as SecureStore from 'expo-secure-store'
 
 const windowHeight = Dimensions.get("window").height;
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [authState, setAuthState] = useState("login");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [warning, setWarning] = useState({
@@ -72,6 +72,10 @@ const LoginScreen = () => {
       .then(async(res) => {
         setUserData(res.data);
         await SecureStore.setItemAsync('user_token', res.data.token)
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Home'}]
+        })
       })
       .catch((err) => {
         setWarning({
@@ -102,6 +106,7 @@ const LoginScreen = () => {
       .then(async(res) => {
         setUserData(res.data)
         await SecureStore.setItemAsync('user_token', res.data.token)
+        navigation.navigate('DpUpload')
       })
       .catch((err) => {
         setWarning({
@@ -145,12 +150,9 @@ const LoginScreen = () => {
   return (
     <SafeAreaView
       style={{
-        height: windowHeight-StatusBar.currentHeight,
+        height: windowHeight + StatusBar.currentHeight,
         backgroundColor: "#121212",
-        // paddingTop: StatusBar.currentHeight,
         paddingHorizontal: 16,
-        // justifyContent: isKeyboardVisible ? "flex-start" : "",
-        marginTop: isKeyboardVisible ? StatusBar.currentHeight : 0
       }}
     >
       <View
@@ -163,7 +165,7 @@ const LoginScreen = () => {
           borderWidth: 1,
           zIndex: 3,
           position: 'relative',
-          top: isKeyboardVisible ? 5 : windowHeight*0.2
+          top: isKeyboardVisible ? StatusBar.currentHeight : windowHeight*0.2
         }}
       >
         <View
@@ -396,7 +398,7 @@ const LoginScreen = () => {
           borderRadius: 5,
           borderColor: "#daa0e2",
           borderWidth: 1,
-          top: isKeyboardVisible ? 9 : windowHeight*0.205
+          top: isKeyboardVisible ? StatusBar.currentHeight+4 : windowHeight*0.205
         }}
       ></View>
       <View
@@ -410,7 +412,7 @@ const LoginScreen = () => {
           borderRadius: 5,
           borderColor: "#daa0e2",
           borderWidth: 1,
-          top: isKeyboardVisible ? 13 : windowHeight*0.21
+          top: isKeyboardVisible ? StatusBar.currentHeight+8 : windowHeight*0.21
         }}
       ></View>  
     </SafeAreaView>
