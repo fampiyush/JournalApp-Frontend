@@ -3,7 +3,7 @@ export default (api) => {
     const loginUrl = '/users/login'
     const signUpUrl = '/users/register'
     const getUserUrl = '/users/me'
-
+    const profilePicUrl = '/users/profilepic'
 
     const getAuthAxiosConfig = (token) => {
         return {
@@ -37,5 +37,12 @@ export default (api) => {
         )
     }
 
-    return {loginUser, registerUser, getUser}
+    const getProfilePic = (token) => {
+        return api.get(
+            profilePicUrl,
+            getAuthAxiosConfig(token)
+        )
+    }
+
+    return {loginUser, registerUser, getUser, getProfilePic}
 }

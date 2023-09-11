@@ -17,13 +17,13 @@ export default function Index({navigation}) {
     setLoading(true)
     const getUser = async() => {
         const t = await SecureStore.getItemAsync('user_token')
-        await authService.getUser(null)
+        await authService.getUser(t)
             .then(async(res) => {
                 setUserData(res.data)
                 await new Promise(resolve => setTimeout(resolve, 1000))
                 navigation.reset({
                   index: 0,
-                  routes: [{name: 'Home'}]
+                  routes: [{name: 'DpUpload'}]
                 })
             })
             .catch(async(err) => {
