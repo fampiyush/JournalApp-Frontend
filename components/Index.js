@@ -11,24 +11,29 @@ const windowHeight = Dimensions.get("window").height;
 export default function Index({navigation}) {
   
   const [loading, setLoading] = useState(false);
-  const {userData, setUserData} = useContext(authContext)
+  const {userData, setUserData, setImgURI} = useContext(authContext)
 
   useEffect(() => {
     setLoading(true)
     const getUser = async() => {
         const t = await SecureStore.getItemAsync('user_token')
+        await authService.getProfilePic(t)
+          .then((res) => {
+            setImgURI(res.data)
+          })
+          .catch((err) => {
+            console.log(err.response.data.message)
+          })
         await authService.getUser(t)
             .then(async(res) => {
                 setUserData(res.data)
-                await new Promise(resolve => setTimeout(resolve, 1000))
                 navigation.reset({
                   index: 0,
-                  routes: [{name: 'DpUpload'}]
+                  routes: [{name: 'Home'}]
                 })
             })
             .catch(async(err) => {
                 console.log(err.response.data.message);
-                await new Promise(resolve => setTimeout(resolve, 1000))
                 navigation.reset({
                   index: 0,
                   routes: [{name: 'Login'}]

@@ -106,7 +106,10 @@ const LoginScreen = ({navigation}) => {
       .then(async(res) => {
         setUserData(res.data)
         await SecureStore.setItemAsync('user_token', res.data.token)
-        navigation.navigate('DpUpload')
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'DpUpload'}]
+        })
       })
       .catch((err) => {
         setWarning({

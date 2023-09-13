@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, Keyboard, TouchableOpacity, Image } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, Keyboard, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import React, {useEffect, useState, useContext} from 'react'
 import { Dimensions } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
@@ -7,16 +7,15 @@ import * as ImagePicker from 'expo-image-picker'
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import { uploadImage } from '../utils/aws-upload';
 import { authContext } from '../utils/auth-Context';
-import * as SecureStore from 'expo-secure-store';
-import { authService } from '../services/allServices';
 
 const windowHeight = Dimensions.get("window").height;
-const DpUpload = () => {
+const DpUpload = ({navigation}) => {
   
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null)
   const [image, setImage] = useState(null)
   const [warning, setWarning] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const {userData, setUserData} = useContext(authContext)
   
@@ -43,22 +42,23 @@ const DpUpload = () => {
       const img = await manipulateAsync(result.assets[0].uri,[],{compress: 0.2, format: SaveFormat.JPEG})
       setImage(img.uri)
       setWarning(null)
-      uploadImage(img.uri, userData.id)
     }else {
       setWarning("Image not Selected. Please tap on crop after cropping")
     }
   }
 
-  const showImage = async() => {
-    const t = await SecureStore.getItemAsync('user_token')
-    await authService.getProfilePic(t)
-      .then((res) => {
-        console.log(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  const onNext = async() => {
+    if(image){
+      setLoading(true)
+      await uploadImage(image, userData.id)
+      setLoading(false)
+    }
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Home'}]
+    })
   }
+
 
   return (
     <SafeAreaView
@@ -68,6 +68,12 @@ const DpUpload = () => {
         paddingHorizontal: 16,
       }}
     >
+    {
+      loading &&
+      <View style={{justifyContent: 'center', position: 'absolute', top: windowHeight*0.4, right: 0, left: 0, zIndex: 99}}>
+        <ActivityIndicator size='large' color='#daa0e2' />
+      </View>
+    }
     <View
         style={{
           backgroundColor: "#E6DFE6",
@@ -80,7 +86,9 @@ const DpUpload = () => {
           position: 'relative',
           top: isKeyboardVisible ? StatusBar.currentHeight : windowHeight*0.2,
           alignItems: 'center',
+          opacity: loading ? 0.1 : 1
         }}
+        pointerEvents={loading ? 'none' : 'auto'}
       >
         <Text style={{color: '#C261CF', position: 'absolute', top: 20, fontSize: 20}}>Profile Picture</Text>
         <View style={{marginTop: '40%', alignItems: 'center'}}>
@@ -141,7 +149,7 @@ const DpUpload = () => {
               paddingHorizontal: 10,
               flexDirection: 'row'
             }}
-            onPress={showImage}
+            onPress={onNext}
           >
             <Text style={{ color: "#fff", marginRight: 5 }}>{image ? 'Next' : 'Skip'}</Text>
             <FontAwesome5 name="arrow-right" size={16} color="#fff" />

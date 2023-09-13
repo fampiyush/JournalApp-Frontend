@@ -5,7 +5,7 @@ import { Dimensions } from 'react-native'
 import {useRoute} from '@react-navigation/native'
 
 const windowHeight = Dimensions.get('window').height
-function NavBar({navigation}) {
+function NavBar({setMenuStatus}) {
 
   const route = useRoute()
 
@@ -13,7 +13,7 @@ function NavBar({navigation}) {
     <View style={styles.wrap}>
     <View style={styles.container}>
         <View style={styles.barsMenu}>
-          <Icon name='bars' color='#E6DFE6' size={22} />
+          <Icon name='bars' color='#E6DFE6' size={22} onPress={() => setMenuStatus(true)} />
           <Text style={styles.headText}>{route.params.component == 'Collection' ? 'Collection' : 'Shared'}</Text>
         </View>
         <Icon name='search' color='#E6DFE6' size={22} />
