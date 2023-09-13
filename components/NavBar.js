@@ -13,7 +13,9 @@ function NavBar({setMenuStatus}) {
     <View style={styles.wrap}>
     <View style={styles.container}>
         <View style={styles.barsMenu}>
-          <Icon name='bars' color='#E6DFE6' size={22} onPress={() => setMenuStatus(true)} />
+          <View style={{paddingHorizontal: 8}}>
+            <Icon name='bars' color='#E6DFE6' size={22} onPress={() => setMenuStatus(true)} />
+          </View>
           <Text style={styles.headText}>{route.params.component == 'Collection' ? 'Collection' : 'Shared'}</Text>
         </View>
         <Icon name='search' color='#E6DFE6' size={22} />
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     },
     headText: {
         fontSize: 22,
-        marginLeft: 15,
+        marginLeft: 4,
         fontWeight: '600',
         color: '#E6DFE6'
     }
