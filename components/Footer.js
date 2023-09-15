@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import {useRoute} from '@react-navigation/native'
 
 const windowHeight = Dimensions.get("window").height;
-function Footer({navigation}) {
+function Footer({navigation, setCollectionMaker, collectionMaker}) {
   
   const route = useRoute()
 
@@ -29,11 +29,11 @@ function Footer({navigation}) {
             }}
           ></View>
         </Pressable>
-        <Pressable style={{width: '20%', alignItems: 'center'}}>
+        <Pressable style={{width: '20%', alignItems: 'center'}} onPress={() => setCollectionMaker(true)}>
           <AntDesign
             name="pluscircle"
             size={56}
-            color="#C261CF"
+            color={collectionMaker ? '#4a4a4a' : '#C261CF'}
             style={{ margin: -14 }}
           />
         </Pressable>

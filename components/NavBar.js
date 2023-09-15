@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Pressable } from 'react-native'
 import Icon from '@expo/vector-icons/FontAwesome5'
 import { Dimensions } from 'react-native'
 import {useRoute} from '@react-navigation/native'
@@ -13,9 +13,9 @@ function NavBar({setMenuStatus}) {
     <View style={styles.wrap}>
     <View style={styles.container}>
         <View style={styles.barsMenu}>
-          <View style={{paddingHorizontal: 8}}>
-            <Icon name='bars' color='#E6DFE6' size={22} onPress={() => setMenuStatus(true)} />
-          </View>
+          <Pressable style={{paddingHorizontal: 16}} onPress={() => setMenuStatus(true)}>
+            <Icon name='bars' color='#E6DFE6' size={22} />
+          </Pressable>
           <Text style={styles.headText}>{route.params.component == 'Collection' ? 'Collection' : 'Shared'}</Text>
         </View>
         <Icon name='search' color='#E6DFE6' size={22} />
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     container: {
-        paddingLeft: 16,
+        paddingLeft: 8,
         paddingRight: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,10 +16,12 @@ import * as SecureStore from "expo-secure-store";
 import { authService } from "../services/allServices";
 import ModalMenu from "react-native-modal";
 import SideMenu from './SideMenu';
+import CollectionMaker from './CollectionMaker';
 
 const windowHeight = Dimensions.get("window").height;
 function Home({ navigation }) {
   const [menuStatus, setMenuStatus] = useState(false);
+  const [collectionMaker, setCollectionMaker] = useState(false);
 
   const route = useRoute();
 
@@ -52,7 +54,7 @@ function Home({ navigation }) {
       >
         <Shared style={styles.shared} />
       </View>
-      <Footer style={styles.footer} navigation={navigation} />
+      <Footer style={styles.footer} navigation={navigation} setCollectionMaker={setCollectionMaker} collectionMaker={collectionMaker} />
 
       <ModalMenu
         isVisible={menuStatus}
@@ -77,6 +79,37 @@ function Home({ navigation }) {
           }}
         >
           <SideMenu />
+        </View>
+      </ModalMenu>
+
+      <ModalMenu
+        isVisible={collectionMaker}
+        onBackdropPress={() => setCollectionMaker(false)}
+        onBackButtonPress={() => setCollectionMaker(false)}
+        transparent={true}
+        onSwipeComplete={() => setCollectionMaker(false)}
+        animationIn='slideInUp'
+        animationOut='slideOutDown'
+        swipeDirection='down'
+        hideModalContentWhileAnimating
+        propagateSwipe
+        swipeThreshold={50}
+        useNativeDriverForBackdrop
+        style={{margin: 0, position: 'absolute', right: 0, left: 0, bottom: -windowHeight*0.35, alignItems: 'center'}}
+      >       
+        <View
+          style={{
+            backgroundColor: "#121212",
+            width: '100%',
+            height: windowHeight*0.75,
+            borderTopRightRadius: 15,
+            borderTopLeftRadius: 15,
+          }}
+        >
+          <View style={{alignItems: 'center'}}>
+            <View style={{backgroundColor: '#4a4a4a', width: 100, height: 5, marginTop: 10}}></View>
+          </View>
+          <CollectionMaker />
         </View>
       </ModalMenu>
     </SafeAreaView>
