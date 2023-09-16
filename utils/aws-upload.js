@@ -1,5 +1,4 @@
 import { S3 } from 'aws-sdk'
-import Base64ArrayBuffer from 'base64-arraybuffer';
 
 const s3 = new S3({
     accessKeyId: process.env.EXPO_PUBLIC_S3_ACCESS_KEY,
@@ -7,13 +6,23 @@ const s3 = new S3({
     region: 'ap-south-1'
 })
 
-export const uploadImage = async (uri, id) => {
+export const uploadImage = async (uri, id, type, itemId) => {
     const blob = await uriToBlob(uri)
-    const params = {
-        Bucket: process.env.EXPO_PUBLIC_S3_BUCKET_NAME,
-        Key: `${id}/profilepicture.jpg`,
-        Body: blob,
+    let params;
+    if(type == 'profilepicture'){
+        params = {
+            Bucket: process.env.EXPO_PUBLIC_S3_BUCKET_NAME,
+            Key: `${id}/profilepicture.jpg`,
+            Body: blob,
+        }
+    }else {
+        params = {
+            Bucket: process.env.EXPO_PUBLIC_S3_BUCKET_NAME,
+            Key: `${id}/${itemId}.jpg`,
+            Body: blob,
+        }
     }
+
     s3.upload(params, function(err, data) {
         if (err) {
             throw err;
@@ -22,20 +31,6 @@ export const uploadImage = async (uri, id) => {
     });
 }
 
-// export const getImage = async (id) => {
-//     const params = {
-//         Bucket: process.env.EXPO_PUBLIC_S3_BUCKET_NAME,
-//         Key: `profilePicture/${id}.jpg`,
-//     }
-//     s3.getObject(params, (err, data) => {
-//         if(err){
-//             throw err
-//         }
-//         console.log(data)
-//         // const photoURI = Base64ArrayBuffer.encode(data.Body)
-//         // console.log(photoURI)
-//     })
-// }
 
 const uriToBlob = (uri) => {
     return new Promise((resolve, reject) => {

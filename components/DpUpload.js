@@ -50,7 +50,7 @@ const DpUpload = ({navigation}) => {
   const onNext = async() => {
     if(image){
       setLoading(true)
-      await uploadImage(image, userData.id)
+      await uploadImage(image, userData.id, 'profilepicture')
       setLoading(false)
     }
     navigation.reset({

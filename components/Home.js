@@ -109,7 +109,7 @@ function Home({ navigation }) {
           <View style={{alignItems: 'center'}}>
             <View style={{backgroundColor: '#4a4a4a', width: 100, height: 5, marginTop: 10}}></View>
           </View>
-          <CollectionMaker />
+          <CollectionMaker setCollectionMaker={setCollectionMaker} />
         </View>
       </ModalMenu>
     </SafeAreaView>

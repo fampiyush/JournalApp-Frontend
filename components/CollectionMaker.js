@@ -1,18 +1,23 @@
 import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker'
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import { uploadImage } from '../utils/aws-upload';
 import { authContext } from '../utils/auth-Context';
+import { collectionService } from '../services/allServices';
+import uuid from 'react-native-uuid'
+import * as SecureStore from 'expo-secure-store';
 
-const CollectionMaker = () => {
+const CollectionMaker = ({setCollectionMaker}) => {
   
   const [image, setImage] = useState(null);
   const [name, setName] = useState("")
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null)
   const [warning, setWarning] = useState(null)
   const [nameWarning, setNameWarning] = useState(false)
+
+  const {userData} = useContext(authContext)
 
   const pickImage = async () => {
     if(!hasGalleryPermission){
@@ -35,10 +40,32 @@ const CollectionMaker = () => {
     }
   }
 
-  const create = () => {
+  const create = async() => {
     if(name.length == 0){
       setNameWarning(true)
+      return
     }
+
+    const collection_id = uuid.v4()
+
+    if(image){
+      await uploadImage(image, userData.id, 'collection', collection_id)
+    }
+
+    const data = {
+      name,
+      collection_id,
+    }
+
+    const t = await SecureStore.getItemAsync('user_token')
+    await collectionService.uploadCollection(t, data)
+      .then((res) => {
+        console.log(res.data.message)
+        setCollectionMaker(false)
+      })
+      .catch((err) => {
+        console.log(err.response.data.message)
+      })
   }
 
   const handleName = (e) => {
