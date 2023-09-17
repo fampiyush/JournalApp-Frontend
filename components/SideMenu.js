@@ -3,10 +3,19 @@ import React, { useEffect, useContext } from 'react'
 import { authService } from "../services/allServices";
 import { authContext } from '../utils/auth-Context';
 import { FontAwesome } from '@expo/vector-icons';
+import * as SecureStore from 'expo-secure-store';
 
-const SideMenu = () => {
+const SideMenu = ({navigation}) => {
 
     const {imgURI, userData} = useContext(authContext);
+
+    const logout = async() => {
+        await SecureStore.deleteItemAsync('user_token')
+        navigation.reset({
+            index: 0,
+            routes: [{name: 'Login'}]
+          })
+    }
 
     return (
     <View style={{marginTop: 20}}>
@@ -26,10 +35,10 @@ const SideMenu = () => {
                 <Text style={{color: '#E6DFE6', fontSize: 22,letterSpacing: 1, marginLeft: 16}}>Profile</Text>
             </Pressable>
             <Pressable style={({pressed}) =>[{marginTop: 16,paddingVertical: 5, backgroundColor: pressed ? '#4a4a4a' : '#121212'}]}>
-                <Text style={{color: '#E6DFE6', fontSize: 22,letterSpacing: 1, marginLeft: 16}}>Settings</Text>
-            </Pressable>   
-            <Pressable style={({pressed}) =>[{marginTop: 16,paddingVertical: 5, backgroundColor: pressed ? '#4a4a4a' : '#121212'}]}>
                 <Text style={{color: '#E6DFE6', fontSize: 22,letterSpacing: 1, marginLeft: 16}}>Feedbacks</Text>
+            </Pressable>   
+            <Pressable style={({pressed}) =>[{marginTop: 16,paddingVertical: 5, backgroundColor: pressed ? '#4a4a4a' : '#121212'}]} onPress={logout}>
+                <Text style={{color: '#E6DFE6', fontSize: 22,letterSpacing: 1, marginLeft: 16}}>LogOut</Text>
             </Pressable>   
         </View>
     </View>

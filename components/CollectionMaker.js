@@ -17,7 +17,7 @@ const CollectionMaker = ({setCollectionMaker}) => {
   const [warning, setWarning] = useState(null)
   const [nameWarning, setNameWarning] = useState(false)
 
-  const {userData} = useContext(authContext)
+  const {userData, setTriggerRefresh} = useContext(authContext)
 
   const pickImage = async () => {
     if(!hasGalleryPermission){
@@ -55,6 +55,7 @@ const CollectionMaker = ({setCollectionMaker}) => {
     const data = {
       name,
       collection_id,
+      collection_img: image ? true : false
     }
 
     const t = await SecureStore.getItemAsync('user_token')
@@ -62,6 +63,7 @@ const CollectionMaker = ({setCollectionMaker}) => {
       .then((res) => {
         console.log(res.data.message)
         setCollectionMaker(false)
+        setTriggerRefresh(Math.random())
       })
       .catch((err) => {
         console.log(err.response.data.message)

@@ -78,7 +78,7 @@ function Home({ navigation }) {
             height: windowHeight,
           }}
         >
-          <SideMenu />
+          <SideMenu navigation={navigation} />
         </View>
       </ModalMenu>
 

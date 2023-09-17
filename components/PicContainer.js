@@ -12,6 +12,7 @@ import Collage from "./Collage";
 import { Dimensions } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
+import { FontAwesome } from "@expo/vector-icons";
 
 const windowHeight = Dimensions.get("window").height;
 function PicContainer({ data }) {
@@ -23,21 +24,26 @@ function PicContainer({ data }) {
 
   return (
     <View>
-      <Text style={styles.date}>{data.date}</Text>
-      {data.data.map((item) => (
-        <View key={item.id} style={{ overflow: "visible" }}>
+        <View key={data.collection_id} style={{ overflow: "visible" }}>
           <View style={styles.picContainer}>
+          {
+            data.collection_imguri ?
             <Image
-              source={require("../assets/stars.jpg")}
+              source={{uri: data.collection_imguri}}
               style={styles.pictures}
             />
+            :
+            <View style={{alignItems: 'center'}}>
+              <FontAwesome name="picture-o" size={280} color="#73849e" />
+            </View>
+          }
             <View style={styles.captionCont}>
-              <Text style={styles.captions}>{item.caption}</Text>
+              <Text style={styles.captions}>{data.collection_name}</Text>
             </View>
             <View style={{ alignItems: "center", height: "100%" }}>
               <TouchableOpacity
                 style={styles.buttons}
-                onPress={() => onOpen(item.id)}
+                onPress={() => onOpen(data.collection_id)}
               >
                 <Text style={{ color: "#E6DFE6" }}>OPEN</Text>
               </TouchableOpacity>
@@ -46,7 +52,7 @@ function PicContainer({ data }) {
           <View style={styles.page1}></View>
           <View style={styles.page2}></View>
         </View>
-      ))}
+
       <Modal
         visible={modalVisible}
         onRequestClose={() => {
