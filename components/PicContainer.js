@@ -7,16 +7,19 @@ import {
   FlatList,
   TouchableOpacity,
   Modal,
+  Pressable
 } from "react-native";
 import Collage from "./Collage";
 import { Dimensions } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { FontAwesome } from "@expo/vector-icons";
+import ModalMenu from "react-native-modal";
 
 const windowHeight = Dimensions.get("window").height;
 function PicContainer({ data }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false)
 
   const onOpen = (id) => {
     setModalVisible(true);
@@ -24,8 +27,14 @@ function PicContainer({ data }) {
 
   return (
     <View>
-        <View key={data.collection_id} style={{ overflow: "visible" }}>
+        <View style={{ overflow: "visible", marginTop: 15 }}>
           <View style={styles.picContainer}>
+            <Pressable style={{position: 'absolute', right: -10, top: -15, zIndex: 99}} onPress={() => setConfirmDeleteModal(true)}>
+              <Entypo name="circle-with-cross" size={32} color="#C261CF" />
+            </Pressable>
+            <View style={{position: 'absolute', right: -3, top: -8}}>
+              <View style={{backgroundColor: '#E6DFE6', width: 16, height: 24}}></View>
+            </View>
           {
             data.collection_imguri ?
             <Image
@@ -85,6 +94,41 @@ function PicContainer({ data }) {
           </View>
         </BlurView>
       </Modal>
+      
+      <ModalMenu
+        isVisible={confirmDeleteModal}
+        onBackdropPress={() => setConfirmDeleteModal(false)}
+        onBackButtonPress={() => setConfirmDeleteModal(false)}
+        transparent={true}
+        onSwipeComplete={() => setConfirmDeleteModal(false)}
+        animationIn='slideInUp'
+        animationOut='slideOutDown'
+        swipeDirection='down'
+        hideModalContentWhileAnimating
+        propagateSwipe
+        swipeThreshold={50}
+        useNativeDriverForBackdrop
+        style={{alignItems: 'center'}}
+      >       
+        <View
+          style={{
+            backgroundColor: "#121212",
+            width: '90%',
+            height: windowHeight*0.3,
+            borderRadius: 15,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Text style={{color: '#E6DFE6', fontSize: 16}}>Are you sure you want to delete collection "{data.collection_name}"</Text>
+          <TouchableOpacity
+            style={[styles.buttons, {height: 30, marginTop: 15, backgroundColor: '#dc3545'}]}
+            // onPress={() => onOpen(data.collection_id)}
+          >
+              <Text style={{ color: "#E6DFE6" }}>DELETE</Text>
+          </TouchableOpacity>
+        </View>
+      </ModalMenu>
     </View>
   );
 }
