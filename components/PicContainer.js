@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,15 +15,35 @@ import { Entypo } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { FontAwesome } from "@expo/vector-icons";
 import ModalMenu from "react-native-modal";
+import * as SecureStore from 'expo-secure-store';
+import { collectionService } from '../services/allServices';
+import { authContext } from '../utils/auth-Context';
 
 const windowHeight = Dimensions.get("window").height;
 function PicContainer({ data }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false)
 
+  const {setTriggerRefresh} = useContext(authContext)
+
   const onOpen = (id) => {
     setModalVisible(true);
   };
+
+  const onDelete = async() => {
+    const t = await SecureStore.getItemAsync('user_token')
+    const d = {
+      collection_id: data.collection_id
+    }
+    await collectionService.deleteCollection(t, d)
+    .then((res) => {
+      setConfirmDeleteModal(false)
+      setTriggerRefresh(Math.random())
+    })
+    .catch((err) => {
+      console.log(err.response.data.message)
+    })
+  }
 
   return (
     <View>
@@ -73,7 +93,7 @@ function PicContainer({ data }) {
         <BlurView tint="dark" intensity={50}>
           <View style={styles.modalContainer}>
             <View  style={styles.modalContent}>
-            <Collage />
+            <Collage collection_id={data.collection_id} />
             </View>
             <View
               style={{
@@ -123,7 +143,7 @@ function PicContainer({ data }) {
           <Text style={{color: '#E6DFE6', fontSize: 16}}>Are you sure you want to delete collection "{data.collection_name}"</Text>
           <TouchableOpacity
             style={[styles.buttons, {height: 30, marginTop: 15, backgroundColor: '#dc3545'}]}
-            // onPress={() => onOpen(data.collection_id)}
+            onPress={onDelete}
           >
               <Text style={{ color: "#E6DFE6" }}>DELETE</Text>
           </TouchableOpacity>

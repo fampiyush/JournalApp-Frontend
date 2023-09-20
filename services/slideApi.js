@@ -1,8 +1,8 @@
 export default (api) => {
 
-    const uploadUrl = '/collection/upload'
-    const getAllUrl = '/collection/getall'
-    const deleteCollectionUrl = '/collection/delete'
+    const uploadUrl = '/slide/upload'
+    const getAllUrl = '/slide/getall'
+    const deleteSlideUrl = '/slide/delete'
 
     const getAuthAxiosConfig = (token) => {
         return {
@@ -13,7 +13,7 @@ export default (api) => {
         }
     }
 
-    const uploadCollection = (token,data) => {
+    const uploadSlide = (token,data) => {
         return api.post(
             uploadUrl,
             data,
@@ -21,20 +21,21 @@ export default (api) => {
         )
     }
 
-    const getAllCollection = (token) => {
+    const getAllSlide = (token, data) => {
         return api.get(
             getAllUrl,
-            getAuthAxiosConfig(token)
-        )
-    }
-
-    const deleteCollection = (token, data) => {
-        return api.post(
-            deleteCollectionUrl,
             data,
             getAuthAxiosConfig(token)
         )
     }
 
-    return {uploadCollection, getAllCollection, deleteCollection}
+    const deleteSlide = (token, data) => {
+        return api.post(
+            deleteSlideUrl,
+            data,
+            getAuthAxiosConfig(token)
+        )
+    }
+
+    return {uploadSlide, getAllSlide, deleteSlide}
 }
