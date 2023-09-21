@@ -22,7 +22,7 @@ export default (api) => {
     }
 
     const getAllSlide = (token, data) => {
-        return api.get(
+        return api.post(
             getAllUrl,
             data,
             getAuthAxiosConfig(token)
