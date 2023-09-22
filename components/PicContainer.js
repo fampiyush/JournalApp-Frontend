@@ -3,12 +3,12 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   FlatList,
   TouchableOpacity,
   Modal,
   Pressable
 } from "react-native";
+import { Image } from 'expo-image';
 import Collage from "./Collage";
 import { Dimensions } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -45,6 +45,9 @@ function PicContainer({ data }) {
     })
   }
 
+  const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
   return (
     <View>
         <View style={{ overflow: "visible", marginTop: 15 }}>
@@ -58,8 +61,10 @@ function PicContainer({ data }) {
           {
             data.collection_imguri ?
             <Image
-              source={{uri: data.collection_imguri}}
+              source={data.collection_imguri}
               style={styles.pictures}
+              placeholder={blurhash}
+              transition={1000}
             />
             :
             <View style={{alignItems: 'center'}}>

@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useContext} from "react";
 import { authContext } from '../utils/auth-Context';
-import { View, Text, Image, StyleSheet, ScrollView, Pressable, TouchableOpacity, TextInput, Keyboard, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity, TextInput, Keyboard, ActivityIndicator } from "react-native";
+import { Image } from 'expo-image';
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { Dimensions } from "react-native";
 import * as SecureStore from 'expo-secure-store';
@@ -149,6 +150,10 @@ function Collage({collection_id}) {
     setToBeDeleted(e)
   }
 
+  const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
+
   const renderItem = ({ item, index }) => {
     return (
         <View style={styles.card}>
@@ -163,7 +168,7 @@ function Collage({collection_id}) {
                 <View style={{ alignItems: "center", marginTop: 0}}>
                     {
                       image ?
-                      <Image source={{uri: image}} style={{width: '100%', height: screenHeight * 0.3, borderRadius: 10}} />
+                      <Image source={image} style={{width: '100%', height: screenHeight * 0.3, borderRadius: 10}} placeholder={blurhash} />
                       :
                         <FontAwesome name="picture-o" size={screenHeight * 0.3} color="#E6DFE6" />
                     }
@@ -264,13 +269,14 @@ function Collage({collection_id}) {
               </Pressable>
               {item.slide_imgurl && (
                 <Image
-                  source={{uri: item.slide_imgurl}}
+                  source={item.slide_imgurl}
                   style={{
                     height: screenHeight * 0.33,
                     width: "100%",
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
                   }}
+                  placeholder={blurhash}
                 />
               )}
               <ScrollView

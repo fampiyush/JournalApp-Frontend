@@ -4,6 +4,7 @@ import { authService } from "../services/allServices";
 import { authContext } from '../utils/auth-Context';
 import { FontAwesome } from '@expo/vector-icons';
 import * as SecureStore from 'expo-secure-store';
+import * as Linking from 'expo-linking';
 
 const SideMenu = ({navigation}) => {
 
@@ -15,6 +16,10 @@ const SideMenu = ({navigation}) => {
             index: 0,
             routes: [{name: 'Login'}]
           })
+    }
+
+    const handleLink = () => {
+        Linking.openURL('mailto:piyushgupta941d@gmailcom')
     }
 
     return (
@@ -30,12 +35,12 @@ const SideMenu = ({navigation}) => {
             <Text style={{color: '#C261CF', fontSize: 12}}>@{userData.username}</Text>
         </View>
         <View style={{width: '100%', backgroundColor: '#daa0e2', height: 1, marginTop: 16}}></View>
-        <View style={{marginTop: 16}}>
-            <Pressable style={({pressed}) =>[{paddingVertical: 5, backgroundColor: pressed ? '#4a4a4a' : '#121212'}]}>
+        <View style={{marginTop: 8}}>
+            {/* <Pressable style={({pressed}) =>[{paddingVertical: 5, backgroundColor: pressed ? '#4a4a4a' : '#121212'}]}>
                 <Text style={{color: '#E6DFE6', fontSize: 22,letterSpacing: 1, marginLeft: 16}}>Profile</Text>
-            </Pressable>
-            <Pressable style={({pressed}) =>[{marginTop: 16,paddingVertical: 5, backgroundColor: pressed ? '#4a4a4a' : '#121212'}]}>
-                <Text style={{color: '#E6DFE6', fontSize: 22,letterSpacing: 1, marginLeft: 16}}>Feedbacks</Text>
+            </Pressable> */}
+            <Pressable style={({pressed}) =>[{marginTop: 16,paddingVertical: 5, backgroundColor: pressed ? '#4a4a4a' : '#121212'}]} onPress={handleLink}>
+                <Text style={{color: '#E6DFE6', fontSize: 22,letterSpacing: 1, marginLeft: 16}}>Feedback/Contact</Text>
             </Pressable>   
             <Pressable style={({pressed}) =>[{marginTop: 16,paddingVertical: 5, backgroundColor: pressed ? '#4a4a4a' : '#121212'}]} onPress={logout}>
                 <Text style={{color: '#E6DFE6', fontSize: 22,letterSpacing: 1, marginLeft: 16}}>LogOut</Text>
