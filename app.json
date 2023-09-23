@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "PolaroidGallery-scheme",
+    "scheme": "polaroidgallery-scheme",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -17,15 +17,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "config": {
-        "usesNonExemptEncryption": false
-      }
+      "bundleIdentifier": "com.fampiyush.PolaroidGallery"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.fampiyush.PolaroidGallery"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,6 +39,17 @@
           "photosPermission": "The app accesses your photos to let you create your collections."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b5776a03-dced-4975-9cdf-afdbab557f4a"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b5776a03-dced-4975-9cdf-afdbab557f4a"
+    }
   }
 }

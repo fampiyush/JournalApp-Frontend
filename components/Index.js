@@ -27,6 +27,7 @@ export default function Index({navigation}) {
         await authService.getUser(t)
             .then(async(res) => {
                 setUserData(res.data)
+                await new Promise(resolve => setTimeout(resolve, 2000));
                 navigation.reset({
                   index: 0,
                   routes: [{name: 'Home'}]
@@ -34,6 +35,7 @@ export default function Index({navigation}) {
             })
             .catch(async(err) => {
                 console.log(err.response.data.message);
+                await new Promise(resolve => setTimeout(resolve, 2000));
                 navigation.reset({
                   index: 0,
                   routes: [{name: 'Login'}]
@@ -50,7 +52,9 @@ export default function Index({navigation}) {
         {
           (loading) &&
           <View style={{alignItems: 'center', justifyContent: 'center', height: windowHeight, width: '100%'}}>
-            <Text style={{color: '#E6DFE6', fontSize: 16}}>Splash Screen</Text>
+            <Text style={{color: '#E6DFE6', fontSize: 32}}>JournalApp</Text>
+            <Text style={{color: '#E6DFE6', fontSize: 22, marginTop: 8}}>By Piyush Gupta</Text>
+            <Text style={{color: '#E6DFE6', fontSize: 16, marginTop: 16}}>Visit piyushg.com</Text>
           </View>
         }
       </View>
