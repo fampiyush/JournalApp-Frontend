@@ -28,7 +28,9 @@ const SideMenu = ({navigation}) => {
             imgURI ?
                 <Image source={{uri: imgURI}} height={75} width={75} style={{borderRadius: 50, marginLeft: 16}} />
             :
-                <FontAwesome name="user-circle" size={75} color="#73849e" />
+                <View style={{marginLeft: 16}}>
+                    <FontAwesome name="user-circle" size={75} color="#73849e" />
+                </View>
         }
         <View style={{marginTop: 8, marginLeft: 16}}>
             <Text style={{color: '#E6DFE6', fontSize: 16}}>{userData.name}</Text>
